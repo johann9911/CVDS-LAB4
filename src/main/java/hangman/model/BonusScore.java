@@ -8,6 +8,7 @@ public class BonusScore implements GameScore {
 	 * @post puntaje >0
 	 * @param correctCount Letras correctas
 	 * @param incorrectCount Letras Incorrectas
+	 * @throws puntajemenoracero [puntaje<0]
 	 * @return
 	 */
 	public int CalculateScore(int correctCount, int incorrectCount ) {
