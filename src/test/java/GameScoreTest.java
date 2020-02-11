@@ -1,8 +1,14 @@
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import org.junit.Test;
-import hangman.model.GameScore;
+
+import hangman.model.*;
 
 public class GameScoreTest {
-	
+	private OriginalScore c =  new OriginalScore();
+	private BonusScore c2 =  new BonusScore();
+	private PowerScore c3 =  new PowerScore();
 	/* OriginalScore:
 	 * 1. Digite valores invalidos, lance excepcion
 	 * 2. Juego retorne un resultado normal, se comporte por medio de la formula, 100-10*letras_Incorrectas>=0, siempre y cuando las letras_Incorrectas<=10
@@ -80,9 +86,160 @@ public class GameScoreTest {
 	 * 
 	 */	
 	
+	
 	@Test
-	public void DeberialanzarExcepcion(){
+	public void DeberialanzarExcepcionOriginalScore(){
+		try {
+			c.CalculateScore(-1, 0);
+			fail("No se genero excepcion");
+		}catch(GameException ec) {
+			assertEquals(ec.getMessage(),GameException.numeroInvalido);
+		}
+		try {
+			c.CalculateScore(0, -1);
+			fail("No se genero excepcion");
+		}catch(GameException ec) {
+			assertEquals(ec.getMessage(),GameException.numeroInvalido);
+		}
+		try {
+			c.CalculateScore(-1, -1);
+			fail("No se genero excepcion");
+		}catch(GameException ec) {
+			assertEquals(ec.getMessage(),GameException.numeroInvalido);
+		}
+	}
+	
+	@Test
+	public void NoDeberiaLanzarExcepcionOriginalScore(){
+		try {
+			assertEquals(c.CalculateScore(0, 0),100);
+			assertEquals(c.CalculateScore(1, 0),100);
+			assertEquals(c.CalculateScore(0, 1),90);
+		}catch(GameException ec) {
+			fail("Se genero excepcion");
+		}
 		
 	}
 	
+	@Test
+	public void DeberiaRetornarResultadoNormalOriginalScore() throws GameException{
+		assertEquals(c.CalculateScore(0, 0),100);
+		assertEquals(c.CalculateScore(0, 1),90);
+		assertEquals(c.CalculateScore(0, 9),10);
+		assertEquals(c.CalculateScore(0, 10),0);
+		assertEquals(c.CalculateScore(5, 0),100);
+		assertEquals(c.CalculateScore(0, 9),10);
+	}
+	
+	@Test
+	public void DeberiaRetornarCeroAlSobrepasarLaFormula() throws GameException{
+		assertEquals(c.CalculateScore(0, 11),0);
+		assertEquals(c.CalculateScore(0, 12),0);
+		assertEquals(c.CalculateScore(0, 23),0);
+	}
+	
+	@Test
+	public void DeberialanzarExcepcionBonusScore(){
+		try {
+			c2.CalculateScore(-1, 0);
+			fail("No se genero excepcion");
+		}catch(GameException ec) {
+			assertEquals(ec.getMessage(),GameException.numeroInvalido);
+		}
+		try {
+			c2.CalculateScore(0, -1);
+			fail("No se genero excepcion");
+		}catch(GameException ec) {
+			assertEquals(ec.getMessage(),GameException.numeroInvalido);
+		}
+		try {
+			c2.CalculateScore(-1, -1);
+			fail("No se genero excepcion");
+		}catch(GameException ec) {
+			assertEquals(ec.getMessage(),GameException.numeroInvalido);
+		}
+	}
+	
+	@Test
+	public void NoDeberiaLanzarExcepcionBonusScore(){
+		try {
+			assertEquals(c2.CalculateScore(0, 0),0);
+			assertEquals(c2.CalculateScore(1, 0),10);
+			assertEquals(c2.CalculateScore(0, 1),0);
+		}catch(GameException ec) {
+			fail("Se genero excepcion");
+		}
+	}
+	
+	@Test
+	public void DeberiaRetornarResultadoNormalBonusScore() throws GameException{
+		assertEquals(c2.CalculateScore(0, 1),0);
+		assertEquals(c2.CalculateScore(0, 2),0);
+		assertEquals(c2.CalculateScore(0, 10),0);
+	}
+	
+	@Test
+	public void DeberiaRetornarResultadoNormalSiguiendoFormulaBonusScore() throws GameException{
+		assertEquals(c2.CalculateScore(0, 0),0);
+		assertEquals(c2.CalculateScore(1, 0),10);
+		assertEquals(c2.CalculateScore(1, 1),5);
+		assertEquals(c2.CalculateScore(4, 2),30);
+	}
+	
+	@Test
+	public void DeberialanzarExcepcionPowerBonusScore(){
+		try {
+			c3.CalculateScore(-1, 0);
+			fail("No se genero excepcion");
+		}catch(GameException ec) {
+			assertEquals(ec.getMessage(),GameException.numeroInvalido);
+		}
+		try {
+			c3.CalculateScore(0, -1);
+			fail("No se genero excepcion");
+		}catch(GameException ec) {
+			assertEquals(ec.getMessage(),GameException.numeroInvalido);
+		}
+		try {
+			c3.CalculateScore(-1, -1);
+			fail("No se genero excepcion");
+		}catch(GameException ec) {
+			assertEquals(ec.getMessage(),GameException.numeroInvalido);
+		}
+	}
+	
+	@Test
+	public void NoDeberiaLanzarExcepcionPowerBonusScore(){
+		try {
+			assertEquals(c3.CalculateScore(0, 0),0);
+			assertEquals(c3.CalculateScore(1, 0),5);
+			assertEquals(c3.CalculateScore(0, 1),0);
+		}catch(GameException ec) {
+			fail("Se genero excepcion");
+		}
+	}
+	
+	
+	@Test
+	public void DeberiaRetornarResultadoNormalConIesimoIntentoPowerBonusScore() throws GameException{
+		assertEquals(c3.CalculateScore(0, 0),0);
+		assertEquals(c3.CalculateScore(1, 0),5);
+		assertEquals(c3.CalculateScore(4, 0),500);
+		assertEquals(c3.CalculateScore(3, 0),125);
+	}
+	
+	@Test
+	public void DeberiaRetornarResultadoNormalSuperandoIntentosFallidosPowerScore() throws GameException{
+		assertEquals(c3.CalculateScore(0, 0),0);
+		assertEquals(c3.CalculateScore(0, 1),0);
+		assertEquals(c3.CalculateScore(0, 2),0);
+		assertEquals(c3.CalculateScore(0, 20),0);
+	}
+	
+	@Test
+	public void DeberiaRetornarResultadoNormalSiguiendoFormulaPowerScore() throws GameException{
+		assertEquals(c3.CalculateScore(1, 1),0);
+		assertEquals(c3.CalculateScore(2, 1),17);
+		assertEquals(c3.CalculateScore(5, 5),500);
+	}
 }
