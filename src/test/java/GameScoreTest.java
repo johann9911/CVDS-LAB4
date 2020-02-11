@@ -57,7 +57,7 @@ public class GameScoreTest {
 	 * 
 	 * PowerBonusScore:
 	 * 1. Digite valores invalidos, lance excepcion
-	 * 2. Juego retorne un resultado normal,donde la i-ésima intento correcto se comporte como 500<=5^i
+	 * 2. Juego retorne un resultado normal,donde la i-ï¿½sima intento correcto se comporte como 500<=5^i
 	 * 3. Juego retorne un resultado normal,cada que supere el numero de incorrectas puntaje-8*letras_Incorrectas=0
 	 * 4. Juego retorne un resultado normal, por medio de la formula, 500-(5^i letra_Correcta)+(5*letras_Incorrectas)>=0
 	 * 
@@ -90,19 +90,22 @@ public class GameScoreTest {
 	@Test
 	public void DeberialanzarExcepcionOriginalScore(){
 		try {
-			c.CalculateScore(-1, 0);
+			c.calculateScore(-1, 0);
+			c.reiniciarPuntaje();
 			fail("No se genero excepcion");
 		}catch(GameException ec) {
 			assertEquals(ec.getMessage(),GameException.numeroInvalido);
 		}
 		try {
-			c.CalculateScore(0, -1);
+			c.calculateScore(0, -1);
+			c.reiniciarPuntaje();
 			fail("No se genero excepcion");
 		}catch(GameException ec) {
 			assertEquals(ec.getMessage(),GameException.numeroInvalido);
 		}
 		try {
-			c.CalculateScore(-1, -1);
+			c.calculateScore(-1, -1);
+			c.reiniciarPuntaje();
 			fail("No se genero excepcion");
 		}catch(GameException ec) {
 			assertEquals(ec.getMessage(),GameException.numeroInvalido);
@@ -112,9 +115,12 @@ public class GameScoreTest {
 	@Test
 	public void NoDeberiaLanzarExcepcionOriginalScore(){
 		try {
-			assertEquals(c.CalculateScore(0, 0),100);
-			assertEquals(c.CalculateScore(1, 0),100);
-			assertEquals(c.CalculateScore(0, 1),90);
+			assertEquals(c.calculateScore(0, 0),100);
+			c.reiniciarPuntaje();
+			assertEquals(c.calculateScore(1, 0),100);
+			c.reiniciarPuntaje();
+			assertEquals(c.calculateScore(0, 1),90);
+			c.reiniciarPuntaje();
 		}catch(GameException ec) {
 			fail("Se genero excepcion");
 		}
@@ -123,37 +129,49 @@ public class GameScoreTest {
 	
 	@Test
 	public void DeberiaRetornarResultadoNormalOriginalScore() throws GameException{
-		assertEquals(c.CalculateScore(0, 0),100);
-		assertEquals(c.CalculateScore(0, 1),90);
-		assertEquals(c.CalculateScore(0, 9),10);
-		assertEquals(c.CalculateScore(0, 10),0);
-		assertEquals(c.CalculateScore(5, 0),100);
-		assertEquals(c.CalculateScore(0, 9),10);
+		assertEquals(c.calculateScore(0, 0),100);
+		c.reiniciarPuntaje();
+		assertEquals(c.calculateScore(0, 1),90);
+		c.reiniciarPuntaje();
+		assertEquals(c.calculateScore(0, 9),10);
+		c.reiniciarPuntaje();
+		assertEquals(c.calculateScore(0, 10),0);
+		c.reiniciarPuntaje();
+		assertEquals(c.calculateScore(5, 0),100);
+		c.reiniciarPuntaje();
+		assertEquals(c.calculateScore(0, 9),10);
+		c.reiniciarPuntaje();
 	}
 	
 	@Test
 	public void DeberiaRetornarCeroAlSobrepasarLaFormula() throws GameException{
-		assertEquals(c.CalculateScore(0, 11),0);
-		assertEquals(c.CalculateScore(0, 12),0);
-		assertEquals(c.CalculateScore(0, 23),0);
+		assertEquals(c.calculateScore(0, 11),0);
+		c.reiniciarPuntaje();
+		assertEquals(c.calculateScore(0, 12),0);
+		c.reiniciarPuntaje();
+		assertEquals(c.calculateScore(0, 23),0);
+		c.reiniciarPuntaje();
 	}
 	
 	@Test
 	public void DeberialanzarExcepcionBonusScore(){
 		try {
-			c2.CalculateScore(-1, 0);
+			c2.calculateScore(-1, 0);
+			c2.reiniciarPuntaje();
 			fail("No se genero excepcion");
 		}catch(GameException ec) {
 			assertEquals(ec.getMessage(),GameException.numeroInvalido);
 		}
 		try {
-			c2.CalculateScore(0, -1);
+			c2.calculateScore(0, -1);
+			c2.reiniciarPuntaje();
 			fail("No se genero excepcion");
 		}catch(GameException ec) {
 			assertEquals(ec.getMessage(),GameException.numeroInvalido);
 		}
 		try {
-			c2.CalculateScore(-1, -1);
+			c2.calculateScore(-1, -1);
+			c2.reiniciarPuntaje();
 			fail("No se genero excepcion");
 		}catch(GameException ec) {
 			assertEquals(ec.getMessage(),GameException.numeroInvalido);
@@ -163,9 +181,14 @@ public class GameScoreTest {
 	@Test
 	public void NoDeberiaLanzarExcepcionBonusScore(){
 		try {
-			assertEquals(c2.CalculateScore(0, 0),0);
-			assertEquals(c2.CalculateScore(1, 0),10);
-			assertEquals(c2.CalculateScore(0, 1),0);
+			assertEquals(c2.calculateScore(0, 0),0);
+			c2.reiniciarPuntaje();
+			assertEquals(c2.calculateScore(1, 0),10);
+			c2.reiniciarPuntaje();
+			System.out.println(c2.calculateScore(0, 1));
+			c2.reiniciarPuntaje();
+			assertEquals(c2.calculateScore(0, 1),0);
+			c2.reiniciarPuntaje();
 		}catch(GameException ec) {
 			fail("Se genero excepcion");
 		}
@@ -173,35 +196,45 @@ public class GameScoreTest {
 	
 	@Test
 	public void DeberiaRetornarResultadoNormalBonusScore() throws GameException{
-		assertEquals(c2.CalculateScore(0, 1),0);
-		assertEquals(c2.CalculateScore(0, 2),0);
-		assertEquals(c2.CalculateScore(0, 10),0);
+		assertEquals(c2.calculateScore(0, 1),0);
+		c2.reiniciarPuntaje();
+		assertEquals(c2.calculateScore(0, 2),0);
+		c2.reiniciarPuntaje();
+		assertEquals(c2.calculateScore(0, 10),0);
+		c2.reiniciarPuntaje();
 	}
 	
 	@Test
 	public void DeberiaRetornarResultadoNormalSiguiendoFormulaBonusScore() throws GameException{
-		assertEquals(c2.CalculateScore(0, 0),0);
-		assertEquals(c2.CalculateScore(1, 0),10);
-		assertEquals(c2.CalculateScore(1, 1),5);
-		assertEquals(c2.CalculateScore(4, 2),30);
+		assertEquals(c2.calculateScore(0, 0),0);
+		c2.reiniciarPuntaje();
+		assertEquals(c2.calculateScore(1, 0),10);
+		c2.reiniciarPuntaje();
+		assertEquals(c2.calculateScore(1, 1),5);
+		c2.reiniciarPuntaje();
+		assertEquals(c2.calculateScore(4, 2),30);
+		c2.reiniciarPuntaje();
 	}
 	
 	@Test
 	public void DeberialanzarExcepcionPowerBonusScore(){
 		try {
-			c3.CalculateScore(-1, 0);
+			c3.calculateScore(-1, 0);
+			c3.reiniciarPuntaje();
 			fail("No se genero excepcion");
 		}catch(GameException ec) {
 			assertEquals(ec.getMessage(),GameException.numeroInvalido);
 		}
 		try {
-			c3.CalculateScore(0, -1);
+			c3.calculateScore(0, -1);
+			c3.reiniciarPuntaje();
 			fail("No se genero excepcion");
 		}catch(GameException ec) {
 			assertEquals(ec.getMessage(),GameException.numeroInvalido);
 		}
 		try {
-			c3.CalculateScore(-1, -1);
+			c3.calculateScore(-1, -1);
+			c3.reiniciarPuntaje();
 			fail("No se genero excepcion");
 		}catch(GameException ec) {
 			assertEquals(ec.getMessage(),GameException.numeroInvalido);
@@ -211,9 +244,12 @@ public class GameScoreTest {
 	@Test
 	public void NoDeberiaLanzarExcepcionPowerBonusScore(){
 		try {
-			assertEquals(c3.CalculateScore(0, 0),0);
-			assertEquals(c3.CalculateScore(1, 0),5);
-			assertEquals(c3.CalculateScore(0, 1),0);
+			assertEquals(c3.calculateScore(0, 0),0);
+			c3.reiniciarPuntaje();
+			assertEquals(c3.calculateScore(1, 0),5);
+			c3.reiniciarPuntaje();
+			assertEquals(c3.calculateScore(0, 1),0);
+			c3.reiniciarPuntaje();
 		}catch(GameException ec) {
 			fail("Se genero excepcion");
 		}
@@ -222,24 +258,35 @@ public class GameScoreTest {
 	
 	@Test
 	public void DeberiaRetornarResultadoNormalConIesimoIntentoPowerBonusScore() throws GameException{
-		assertEquals(c3.CalculateScore(0, 0),0);
-		assertEquals(c3.CalculateScore(1, 0),5);
-		assertEquals(c3.CalculateScore(4, 0),500);
-		assertEquals(c3.CalculateScore(3, 0),125);
+		assertEquals(c3.calculateScore(0, 0),0);
+		c3.reiniciarPuntaje();
+		assertEquals(c3.calculateScore(1, 0),5);
+		c3.reiniciarPuntaje();
+		assertEquals(c3.calculateScore(4, 0),500);
+		c3.reiniciarPuntaje();
+		assertEquals(c3.calculateScore(3, 0),125);
+		c3.reiniciarPuntaje();
 	}
 	
 	@Test
 	public void DeberiaRetornarResultadoNormalSuperandoIntentosFallidosPowerScore() throws GameException{
-		assertEquals(c3.CalculateScore(0, 0),0);
-		assertEquals(c3.CalculateScore(0, 1),0);
-		assertEquals(c3.CalculateScore(0, 2),0);
-		assertEquals(c3.CalculateScore(0, 20),0);
+		assertEquals(c3.calculateScore(0, 0),0);
+		c3.reiniciarPuntaje();
+		assertEquals(c3.calculateScore(0, 1),0);
+		c3.reiniciarPuntaje();
+		assertEquals(c3.calculateScore(0, 2),0);
+		c3.reiniciarPuntaje();
+		assertEquals(c3.calculateScore(0, 20),0);
+		c3.reiniciarPuntaje();
 	}
 	
 	@Test
 	public void DeberiaRetornarResultadoNormalSiguiendoFormulaPowerScore() throws GameException{
-		assertEquals(c3.CalculateScore(1, 1),0);
-		assertEquals(c3.CalculateScore(2, 1),17);
-		assertEquals(c3.CalculateScore(5, 5),500);
+		assertEquals(c3.calculateScore(1, 1),0);
+		c3.reiniciarPuntaje();
+		assertEquals(c3.calculateScore(2, 1),17);
+		c3.reiniciarPuntaje();
+		assertEquals(c3.calculateScore(5, 5),500);
+		c3.reiniciarPuntaje();
 	}
 }

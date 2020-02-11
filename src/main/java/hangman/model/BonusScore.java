@@ -1,7 +1,16 @@
 package hangman.model;
 
 public class BonusScore implements GameScore {
+	private int puntaje;
+	private final int penalizacion=5;
+	private final int bonificacion=10;
 	
+	/**
+	 * Contructor para objetos de tipo BonusScore
+	 */
+	public BonusScore() {
+		puntaje=0;
+	}
 	/**
 	 * Calcular El puntaje de un juego
 	 * @pre puntaje=0
@@ -11,8 +20,14 @@ public class BonusScore implements GameScore {
 	 * @throws GameException [correctCount<0;incorrectCount<0]
 	 * @return
 	 */
-	public int CalculateScore(int correctCount, int incorrectCount ) throws GameException {
+	public int calculateScore(int correctCount, int incorrectCount ) throws GameException {
 		if(correctCount<0 || incorrectCount<0) throw new GameException(GameException.numeroInvalido);
-		return 0;
+		puntaje=puntaje-(incorrectCount*penalizacion)+(correctCount*bonificacion);
+		if(puntaje<0)puntaje=0;
+		return puntaje;
+	}
+	
+	public void reiniciarPuntaje() {
+		puntaje=0;
 	}
 }

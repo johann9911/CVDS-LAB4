@@ -1,6 +1,16 @@
 package hangman.model;
 
 public class OriginalScore implements GameScore {
+	private int puntaje;
+	private final int penalizacion=10;
+	private final int bonificacion=0;
+	
+	/**
+	 * Contructor para objetos de tipo OriginalScore
+	 */
+	public OriginalScore() {
+		puntaje=100;
+	}
 	
 	/**
 	 * Calcular El puntaje de un juego
@@ -12,8 +22,14 @@ public class OriginalScore implements GameScore {
 	 * @return
 	 * 
 	 */
-	public int CalculateScore(int correctCount, int incorrectCount ) throws GameException {
+	public int calculateScore(int correctCount, int incorrectCount ) throws GameException {
 		if(correctCount<0 || incorrectCount<0) throw new GameException(GameException.numeroInvalido);
-		return 0;
+		puntaje=puntaje-(incorrectCount*penalizacion);
+		if(puntaje<0) puntaje=0;
+		return puntaje;
+	}
+	
+	public void reiniciarPuntaje() {
+		puntaje=100;
 	}
 }
