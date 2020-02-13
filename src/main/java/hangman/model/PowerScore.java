@@ -28,8 +28,9 @@ public class PowerScore implements GameScore {
 			if(puntaje>500)puntaje=500;
 			return puntaje;
 		}
-		public void reiniciarPuntaje() {
+		public int reiniciarPuntaje() {
 			puntaje=0;
+			return puntaje;
 		}
 		
 }

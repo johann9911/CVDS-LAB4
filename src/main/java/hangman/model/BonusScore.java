@@ -27,7 +27,8 @@ public class BonusScore implements GameScore {
 		return puntaje;
 	}
 	
-	public void reiniciarPuntaje() {
+	public int reiniciarPuntaje() {
 		puntaje=0;
+		return puntaje;
 	}
 }

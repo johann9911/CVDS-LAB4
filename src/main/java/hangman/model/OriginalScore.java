@@ -29,7 +29,8 @@ public class OriginalScore implements GameScore {
 		return puntaje;
 	}
 	
-	public void reiniciarPuntaje() {
+	public int reiniciarPuntaje() {
 		puntaje=100;
+		return puntaje;
 	}
 }
